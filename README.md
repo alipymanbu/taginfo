@@ -1,127 +1,25 @@
-# Taginfo
+# taginfo
 
-Brings together information about OpenStreetMap tags and makes it searchable
-and browsable.
+本仓库是「taginfo」的安卓版本获取入口，附使用资料索引。
 
-**Documentation:** See the
-[Taginfo](https://wiki.openstreetmap.org/wiki/Taginfo) page at the OpenStreetMap
-wiki.
+## 安装文件资源（夸克网盘）
 
-**Live System:** [taginfo.openstreetmap.org](https://taginfo.openstreetmap.org/)
+> **taginfo 安装文件资源（夸克网盘）**：[https://pan.quark.cn/s/7eea6c09f67d](https://pan.quark.cn/s/7eea6c09f67d)
 
-There is no versioning of these tools. The official site always runs the
-version tagged `osmorg-taginfo-live`. If you are using the tools, we encourage
-you to stay up-to-date with that version also. But monitor your setup closely
-when you switch to a new version, sometimes things can break.
+## 官方项目
 
-## Files
+- 上游项目：[taginfo/taginfo](https://github.com/taginfo/taginfo)
 
-* `/sources`  - import scripts
-* `/web`      - web user interface and API
-* `/examples` - some misc example stuff
+## 更多资料
 
+- [下载与安装教程](https://github.com/alipymanbu/Android/blob/master/%E5%AE%98%E7%BD%91%E7%89%88APP%E4%B8%8B%E8%BD%BD/taginfo/%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B.md)
+- [原厂真伪校验怎么用](https://github.com/alipymanbu/Android/blob/master/%E5%AE%98%E7%BD%91%E7%89%88APP%E4%B8%8B%E8%BD%BD/taginfo/%E5%8E%9F%E5%8E%82%E7%9C%9F%E4%BC%AA%E6%A0%A1%E9%AA%8C%E6%80%8E%E4%B9%88%E7%94%A8.md)
+- [可以写卡吗](https://github.com/alipymanbu/Android/blob/master/%E5%AE%98%E7%BD%91%E7%89%88APP%E4%B8%8B%E8%BD%BD/taginfo/%E5%8F%AF%E4%BB%A5%E5%86%99%E5%8D%A1%E5%90%97.md)
+- [扫描结果怎么看](https://github.com/alipymanbu/Android/blob/master/%E5%AE%98%E7%BD%91%E7%89%88APP%E4%B8%8B%E8%BD%BD/taginfo/%E6%89%AB%E6%8F%8F%E7%BB%93%E6%9E%9C%E6%80%8E%E4%B9%88%E7%9C%8B.md)
+- [支持哪些NFC标签和交通卡](https://github.com/alipymanbu/Android/blob/master/%E5%AE%98%E7%BD%91%E7%89%88APP%E4%B8%8B%E8%BD%BD/taginfo/%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9BNFC%E6%A0%87%E7%AD%BE%E5%92%8C%E4%BA%A4%E9%80%9A%E5%8D%A1.md)
+- [读不到卡怎么办](https://github.com/alipymanbu/Android/blob/master/%E5%AE%98%E7%BD%91%E7%89%88APP%E4%B8%8B%E8%BD%BD/taginfo/%E8%AF%BB%E4%B8%8D%E5%88%B0%E5%8D%A1%E6%80%8E%E4%B9%88%E5%8A%9E.md)
+- [全部软件目录](https://github.com/alipymanbu/Android/blob/master/%E5%85%A8%E9%83%A8%E8%BD%AF%E4%BB%B6%E7%9B%AE%E5%BD%95.md)
 
-## Prerequisites
+---
 
-It uses:
-
-* Ruby (must be at least 3.0)
-* [Sinatra web framework](http://www.sinatrarb.com/) and other ruby libraries
-* curl binary
-* sqlite3 binary (version 3.33 or above with FTS5 and regexp support)
-* Optional: Parallel bzip (pbzip2)
-* Optional: Vips image library with [Ruby bindings](https://github.com/libvips/ruby-vips)
-
-Install the Debian/Ubuntu packages:
-```sh
-$ sudo apt-get install curl sqlite3 ruby-vips
-$ sudo apt-get install ruby-passenger libapache2-mod-passenger
-```
-
-Install the Gems:
-```sh
-$ sudo gem install bundler
-$ sudo bundle install
-```
-
-Depending on your setup you might want to install an application server like
-* [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest/) or
-* Apache2 `mod_passenger`
-
-If you want to create the taginfo database yourself, you need to have
-https://github.com/taginfo/taginfo-tools installed. See there for details.
-If you only want to run the UI and get the database from somewhere else,
-you do not need this.
-
-
-## Data Import
-
-See [Taginfo/Installation](https://wiki.openstreetmap.org/wiki/Taginfo/Installation)
-at OpenStreetMap's wiki.
-
-
-## Web User Interface
-
-You need a `/data` directory (in the parent directory of the directory where
-this `README.md` is). It must contain the sqlite database files created in the
-data import step or downloaded from page
-[taginfo.openstreetmap.org/download](https://taginfo.openstreetmap.org/download).
-
-To start the web user interface:
-
-```sh
-cd web
-bundle exec ruby taginfo.rb
-```
-
-You can also use it via [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest/).
-
-(On Debian install these packages: `uwsgi uwsgi-core uwsgi-plugin-rack-ruby3.1`.)
-
-```sh
-cd web
-bundle exec uwsgi uwsgi.ini
-```
-
-You can change various settings in the [config file](web/uwsgi.ini) and use
-it through a web server like Apache2 or Nginx.
-
-
-## Tests
-
-There are a few tests for the Ruby code. Call `rake` in the `web` directory to
-run the tests.
-
-
-## Rubocop
-
-There is a configuration for [Rubocop](https://rubocop.org/). You can run
-Rubocop with `rubocop FILENAME.rb...` to check one or more Ruby files. Fixing
-issues is currently an ongoing process.
-
-
-## Javascript
-
-Taginfo uses the following Javascript libraries:
-* [d3](https://d3js.org/)
-
-All the Javascript and CSS needed is already included.
-
-
-## Thanks
-
-To the [many people](https://github.com/taginfo/taginfo/graphs/contributors)
-helping with bug reports, code and translations.
-
-
-## Contact
-
-There is a mailing list for developers and people running their own instances
-of taginfo:
-[taginfo-dev](https://lists.openstreetmap.org/listinfo/taginfo-dev)
-
-
-## Author
-
-Jochen Topf (jochen@topf.org) - https://jochentopf.com/
-
+> 本仓库由上游项目 fork 而来，原始说明见[上游仓库](https://github.com/taginfo/taginfo)。
